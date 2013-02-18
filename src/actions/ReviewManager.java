@@ -7,7 +7,10 @@ import com.intellij.openapi.project.Project;
 import content.Review;
 import ui.ReviewBalloonBuilder;
 import ui.forms.ReviewForm;
+import utils.ReviewBundle;
 import utils.*;
+
+import java.util.List;
 
 /**
  * User: ktisha
@@ -39,4 +42,7 @@ public class ReviewManager implements DumbAware {
     ReviewService.getInstance(myProject).addReview(review);
   }
 
+  public List<Review> getReviews() {
+    return ReviewService.getInstance(myProject).getReviews();
+  }
 }

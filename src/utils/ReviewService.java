@@ -13,17 +13,19 @@ import java.util.List;
  * User: ktisha
  */
 @State(name = "ReviewService",
-      storages = {
-      @Storage( file = StoragePathMacros.PROJECT_FILE),
-      @Storage( file = StoragePathMacros.PROJECT_CONFIG_DIR + "/review.xml", scheme = StorageScheme.DIRECTORY_BASED)
-      }
+       storages = {
+         @Storage(file = StoragePathMacros.PROJECT_FILE),
+         @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/review.xml", scheme = StorageScheme.DIRECTORY_BASED)
+       }
 )
 public class ReviewService implements PersistentStateComponent<Element> {
   private MyState myState = new MyState();
 
-  public class MyState {
+  public static class MyState {
     public List<Review> REVIEWS = new ArrayList<Review>();
-    public MyState(){}
+
+    public MyState() {
+    }
   }
 
   public ReviewService() {
@@ -37,8 +39,9 @@ public class ReviewService implements PersistentStateComponent<Element> {
   @Override
   public void loadState(Element state) {
     final MyState service = XmlSerializer.deserialize(state, MyState.class);
-    if (service != null)
+    if (service != null) {
       myState.REVIEWS.addAll(service.REVIEWS);
+    }
   }
 
   public static ReviewService getInstance(Project project) {
@@ -47,5 +50,9 @@ public class ReviewService implements PersistentStateComponent<Element> {
 
   public void addReview(Review review) {
     myState.REVIEWS.add(review);
+  }
+
+  public List<Review> getReviews() {
+    return myState.REVIEWS;
   }
 }

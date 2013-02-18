@@ -21,7 +21,7 @@ public class AddReviewAction extends AnAction implements DumbAware {
 
   public void actionPerformed(AnActionEvent e) {
     Project project = e.getData(PlatformDataKeys.PROJECT);
-    if(project == null) return;
+    if (project == null) return;
 
     final Editor editor = PlatformDataKeys.EDITOR.getData(e.getDataContext());
     if (editor == null) return;
@@ -31,7 +31,8 @@ public class AddReviewAction extends AnAction implements DumbAware {
     if (psiFile == null) return;
 
     final PsiElement context = psiFile.getContext();
-    final VirtualFile virtualFile = (context == null) ? psiFile.getVirtualFile() : context.getContainingFile().getVirtualFile();
+    final VirtualFile virtualFile =
+      (context == null) ? psiFile.getVirtualFile() : context.getContainingFile().getVirtualFile();
     if (virtualFile == null) return;
 
     int startOffset = editor.getSelectionModel().getSelectionStart();

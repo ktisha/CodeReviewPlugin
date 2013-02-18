@@ -18,7 +18,6 @@ import java.awt.*;
 
 /**
  * User: ktisha
- *
  */
 public class ReviewBalloonBuilder {
 
@@ -29,7 +28,7 @@ public class ReviewBalloonBuilder {
   }
 
   public void showBalloon(@NotNull final Review review, @NotNull final Editor editor,
-                               final ReviewForm balloonContent, final String title) {
+                          final ReviewForm balloonContent, final String title) {
 
     final RangeHighlighter highlighter = editor.getMarkupModel().addRangeHighlighter(review.getStartOffset(),
                                                                                      review.getEndOffset(),
@@ -37,7 +36,8 @@ public class ReviewBalloonBuilder {
                                                                                      ourReviewAttributes,
                                                                                      HighlighterTargetArea.EXACT_RANGE);
 
-    final BalloonBuilder balloonBuilder = JBPopupFactory.getInstance().createDialogBalloonBuilder(balloonContent, title);
+    final BalloonBuilder balloonBuilder =
+      JBPopupFactory.getInstance().createDialogBalloonBuilder(balloonContent, title);
     balloonBuilder.setHideOnClickOutside(true);
     balloonBuilder.setHideOnKeyOutside(true);
     Balloon balloon = balloonBuilder.createBalloon();

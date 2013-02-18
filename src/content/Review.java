@@ -20,7 +20,10 @@ public class Review {
   public Review() {
   }
 
-  public Review(@NotNull final String text, final int startOffset, final int endOffset, @NotNull final String filePath) {
+  public Review(@NotNull final String text,
+                final int startOffset,
+                final int endOffset,
+                @NotNull final String filePath) {
     myStartOffset = startOffset;
     myEndOffset = endOffset;
     myAuthor = System.getProperty("user.name");

@@ -16,12 +16,14 @@ public class ReviewToolWindowFactory implements ToolWindowFactory, DumbAware {
   @Override
   public void createToolWindowContent(Project project, ToolWindow toolWindow) {
     final ContentManager contentManager = toolWindow.getContentManager();
-    ReviewPanel reviewPanel = new ReviewPanel(project);
+    ReviewPanel incomeReviewPanel = new ReviewPanel(project);
+    //ReviewPanel outcomeReviewPanel = new ReviewPanel(project);
 
-    final Content incomeContent = ContentFactory.SERVICE.getInstance().createContent(reviewPanel, "Income", false);
-    final Content outcomeContent = ContentFactory.SERVICE.getInstance().createContent(reviewPanel, "Outcome", false);
+    final Content incomeContent =
+      ContentFactory.SERVICE.getInstance().createContent(incomeReviewPanel, "Income", false);
+    //final Content outcomeContent = ContentFactory.SERVICE.getInstance().createContent(outcomeReviewPanel, "Outcome", false);
 
     contentManager.addContent(incomeContent);
-    contentManager.addContent(outcomeContent);
+    //contentManager.addContent(outcomeContent);
   }
 }
