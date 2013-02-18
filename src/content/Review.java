@@ -17,6 +17,9 @@ public class Review {
   private String myFilePath;
   private int myEndOffset;
 
+  public Review() {
+  }
+
   public Review(@NotNull final String text, final int startOffset, final int endOffset, @NotNull final String filePath) {
     myStartOffset = startOffset;
     myEndOffset = endOffset;
