@@ -4,6 +4,7 @@ import com.intellij.ide.projectView.PresentationData;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.treeStructure.SimpleNode;
+import com.intellij.util.PathUtil;
 import content.Review;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,13 +32,13 @@ public class ReviewNode extends SimpleNode {
 
   @Override
   protected void update(PresentationData presentationData) {
-    presentationData.addText(myReview.getText(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
+    presentationData.addText(myReview.getText(), SimpleTextAttributes.REGULAR_ATTRIBUTES);
     final String filePath = myReview.getFilePath();
     int startOffset = myReview.getStartOffset();
-
+    final String fileName = PathUtil.getFileName(filePath);
     presentationData
-      .addText(" (file : " + filePath + ", start offset " + String.valueOf(startOffset) + ")",
-               SimpleTextAttributes.GRAYED_BOLD_ATTRIBUTES);
+      .addText(" (file : " + fileName + ", start offset " + String.valueOf(startOffset) + ")",
+               SimpleTextAttributes.GRAY_ATTRIBUTES);
   }
 
   public Review getReview() {
