@@ -5,7 +5,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.DumbAware;
 import content.Review;
 import ui.ReviewBalloonBuilder;
-import ui.forms.*;
+import ui.forms.ReviewForm;
 import utils.ReviewBundle;
 
 import javax.swing.*;

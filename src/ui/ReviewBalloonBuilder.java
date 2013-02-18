@@ -27,7 +27,7 @@ public class ReviewBalloonBuilder {
   public ReviewBalloonBuilder() {
   }
 
-  private Balloon createBalloon(@NotNull final Review review, @NotNull final Editor editor,
+  public void showBalloon(@NotNull final Review review, @NotNull final Editor editor,
                                final JComponent balloonContent, final String title) {
 
     final RangeHighlighter highlighter = editor.getMarkupModel().addRangeHighlighter(review.getStartOffset(),
@@ -49,13 +49,7 @@ public class ReviewBalloonBuilder {
         }
       }
     });
-    return balloon;
-  }
-
-  public void showBalloon(@NotNull final Review review, @NotNull final Editor editor,
-                          final JComponent balloonContent, final String title) {
-    final Balloon balloon = createBalloon(review, editor, balloonContent, title);
     final Point targetPoint = editor.visualPositionToXY(editor.offsetToVisualPosition(review.getEndOffset()));
-    balloon.show(new RelativePoint(balloonContent, targetPoint), Balloon.Position.below);
+    balloon.show(new RelativePoint(editor.getContentComponent(), targetPoint), Balloon.Position.below);
   }
 }
