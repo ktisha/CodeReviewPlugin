@@ -14,21 +14,24 @@ public class Review {
   private String myAuthor;
   private String myText = "";
   private int myStartOffset;
+  private String myFilePath;
   private int myEndOffset;
 
-  public Review(@NotNull final String text, final int startOffset, final int endOffset) {
+  public Review(@NotNull final String text, final int startOffset, final int endOffset, @NotNull final String filePath) {
     myStartOffset = startOffset;
     myEndOffset = endOffset;
     myAuthor = System.getProperty("user.name");
     myText = text;
     myDate = new Date();
+    myFilePath = filePath;
   }
 
-  public Review(final int startOffset, final int endOffset) {
+  public Review(final int startOffset, final int endOffset, @NotNull final String filePath) {
     myStartOffset = startOffset;
     myEndOffset = endOffset;
     myAuthor = System.getProperty("user.name");
     myDate = new Date();
+    myFilePath = filePath;
   }
 
   @NotNull
@@ -72,5 +75,13 @@ public class Review {
 
   public void setStartOffset(int startOffset) {
     myStartOffset = startOffset;
+  }
+
+  public String getFilePath() {
+    return myFilePath;
+  }
+
+  public void setFilePath(@NotNull final String filePath) {
+    this.myFilePath = filePath;
   }
 }

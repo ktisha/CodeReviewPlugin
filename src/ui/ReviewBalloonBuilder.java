@@ -1,5 +1,6 @@
 package ui;
 
+import actions.ReviewManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.colors.EditorColors;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
@@ -11,8 +12,8 @@ import com.intellij.openapi.ui.popup.*;
 import com.intellij.ui.awt.RelativePoint;
 import content.Review;
 import org.jetbrains.annotations.NotNull;
+import ui.forms.ReviewForm;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -28,7 +29,7 @@ public class ReviewBalloonBuilder {
   }
 
   public void showBalloon(@NotNull final Review review, @NotNull final Editor editor,
-                               final JComponent balloonContent, final String title) {
+                               final ReviewForm balloonContent, final String title) {
 
     final RangeHighlighter highlighter = editor.getMarkupModel().addRangeHighlighter(review.getStartOffset(),
                                                                                      review.getEndOffset(),
@@ -46,6 +47,8 @@ public class ReviewBalloonBuilder {
       public void onClosed(LightweightWindowEvent event) {
         if (highlighter.isValid()) {
           highlighter.dispose();
+          review.setText(balloonContent.getText());
+          ReviewManager.getInstance(editor.getProject()).saveReview(review);
         }
       }
     });

@@ -3,34 +3,40 @@ package actions;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.DumbAware;
+import com.intellij.openapi.project.Project;
 import content.Review;
 import ui.ReviewBalloonBuilder;
 import ui.forms.ReviewForm;
-import utils.ReviewBundle;
-
-import javax.swing.*;
+import utils.*;
 
 /**
  * User: ktisha
  */
 public class ReviewManager implements DumbAware {
   private static ReviewManager ourInstance;
+  private final Project myProject;
 
-  private ReviewManager() {
+  private ReviewManager(Project project) {
+    myProject = project;
   }
 
-  public static ReviewManager getInstance() {
+  public static ReviewManager getInstance(Project project) {
     if (ourInstance == null) {
-      ourInstance = new ReviewManager();
+      ourInstance = new ReviewManager(project);
     }
     return ourInstance;
   }
 
-  public void addReview(final Editor editor, int startOffset, int endOffset) {
-    final Review review = new Review(startOffset, endOffset);
-    final JComponent reviewForm = new ReviewForm(review, editor.getProject());
+  public void addReview(final Editor editor, int startOffset, int endOffset, String path) {
+    final Review review = new Review(startOffset, endOffset, path);
+    final ReviewForm reviewForm = new ReviewForm(review, editor.getProject());
     final ReviewBalloonBuilder reviewBalloonBuilder = new ReviewBalloonBuilder();
     reviewBalloonBuilder.showBalloon(review, editor, reviewForm, ReviewBundle.message("review.addReview"));
     reviewForm.requestFocus();
   }
+
+  public void saveReview(Review review) {
+    ReviewService.getInstance(myProject).addReview(review);
+  }
+
 }

@@ -44,4 +44,8 @@ public class ReviewForm extends JPanel {
   public void requestFocus() {
     IdeFocusManager.findInstanceByComponent(myReviewTextField).requestFocus(myReviewTextField, true);
   }
+
+  public String getText() {
+    return myReviewTextField.getText();
+  }
 }

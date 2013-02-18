@@ -37,6 +37,9 @@
   </actions>
 
   <extensions defaultExtensionNs="com.intellij">
-      <toolWindow id="Code review" secondary="true" anchor="bottom" factoryClass="ui.toolWindow.ReviewToolWindowFactory"/>
+    <toolWindow id="Code review" secondary="true" anchor="bottom" factoryClass="ui.toolWindow.ReviewToolWindowFactory"/>
+
+    <projectService serviceInterface="utils.ReviewService"
+                    serviceImplementation="utils.ReviewService"/>
   </extensions>
 </idea-plugin>
