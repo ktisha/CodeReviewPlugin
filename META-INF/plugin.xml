@@ -37,7 +37,6 @@
 
     <group id="ReviewActions" popup="true" description="Review Actions" text="Review Actions">
       <reference ref="addReview"/>
-      <reference ref="removeReview"/>
       <add-to-group group-id="EditorPopupMenu" anchor="last"/>
     </group>
 
