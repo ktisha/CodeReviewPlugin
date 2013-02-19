@@ -1,7 +1,11 @@
 package ui.toolWindow;
 
 import com.intellij.ide.projectView.PresentationData;
+import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileManager;
+import com.intellij.pom.Navigatable;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.treeStructure.SimpleNode;
 import com.intellij.util.PathUtil;
@@ -11,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * User: ktisha
  */
-public class ReviewNode extends SimpleNode {
+public class ReviewNode extends SimpleNode implements Navigatable {
   private Review myReview;
 
   public ReviewNode(Project project, Review review) {
@@ -47,6 +51,25 @@ public class ReviewNode extends SimpleNode {
 
   public void setReview(@NotNull final Review review) {
     myReview = review;
+  }
+
+  @Override
+  public void navigate(boolean requestFocus) {
+    final VirtualFile virtualFile = VirtualFileManager.getInstance().findFileByUrl(myReview.getFilePath());
+    if(virtualFile == null) return;
+
+    OpenFileDescriptor element = new OpenFileDescriptor(myProject, virtualFile, myReview.getStartOffset());
+    element.navigate(false);
+  }
+
+  @Override
+  public boolean canNavigate() {
+    return true;
+  }
+
+  @Override
+  public boolean canNavigateToSource() {
+    return true;
   }
 }
 
