@@ -4,6 +4,7 @@ package actions;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.text.StringUtil;
 import content.Review;
 import ui.ReviewBalloonBuilder;
 import ui.forms.ReviewForm;
@@ -39,7 +40,8 @@ public class ReviewManager implements DumbAware {
   }
 
   public void saveReview(Review review) {
-    ReviewService.getInstance(myProject).addReview(review);
+    if (!StringUtil.isEmptyOrSpaces(review.getText()))
+      ReviewService.getInstance(myProject).addReview(review);
   }
 
   public List<Review> getReviews() {
