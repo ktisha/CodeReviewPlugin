@@ -9,7 +9,7 @@ import content.Review;
 import ui.ReviewBalloonBuilder;
 import ui.forms.ReviewForm;
 import utils.ReviewBundle;
-import utils.*;
+import utils.ReviewService;
 
 import java.util.List;
 
@@ -46,5 +46,9 @@ public class ReviewManager implements DumbAware {
 
   public List<Review> getReviews() {
     return ReviewService.getInstance(myProject).getReviews();
+  }
+
+  public List<String> getCommitsToReview() {
+    return ReviewService.getInstance(myProject).getCommitsToReview();
   }
 }

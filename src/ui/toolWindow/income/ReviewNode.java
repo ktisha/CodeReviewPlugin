@@ -1,4 +1,4 @@
-package ui.toolWindow;
+package ui.toolWindow.income;
 
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;

@@ -48,5 +48,6 @@
 
     <projectService serviceInterface="utils.ReviewService"
                     serviceImplementation="utils.ReviewService"/>
+    <checkinHandlerFactory implementation="ui.commitDialog.ReviewCommitHandlerFactory" />
   </extensions>
 </idea-plugin>

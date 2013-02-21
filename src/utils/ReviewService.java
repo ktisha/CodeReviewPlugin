@@ -23,6 +23,8 @@ public class ReviewService implements PersistentStateComponent<Element> {
 
   public static class MyState {
     public List<Review> REVIEWS = new ArrayList<Review>();
+    public List<String> COMMITS_TO_REVIEW = new ArrayList<String>();
+    public List<String> COMMIT_AUTHORS = new ArrayList<String>();
 
     public MyState() {
     }
@@ -54,5 +56,13 @@ public class ReviewService implements PersistentStateComponent<Element> {
 
   public List<Review> getReviews() {
     return myState.REVIEWS;
+  }
+
+  public List<String> getCommitsToReview() {
+    return myState.COMMITS_TO_REVIEW;
+  }
+
+  public List<String> getAuthors() {
+    return myState.COMMIT_AUTHORS;
   }
 }

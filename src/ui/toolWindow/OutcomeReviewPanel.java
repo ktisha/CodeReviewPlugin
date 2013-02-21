@@ -3,11 +3,10 @@ package ui.toolWindow;
 import com.intellij.ide.util.treeView.AbstractTreeBuilder;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.ScrollPaneFactory;
 import com.intellij.ui.treeStructure.SimpleTree;
 import com.intellij.ui.treeStructure.SimpleTreeStructure;
-import ui.toolWindow.income.RootNode;
+import ui.toolWindow.outcome.OutcomeRootNode;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -16,17 +15,19 @@ import javax.swing.tree.DefaultTreeModel;
 /**
  * User: ktisha
  * <p/>
- * Main code review panel
+ * 1. Shows commits needed to be reviewed by user
+ * 2. Already reviewed
  */
-public class ReviewPanel extends SimpleToolWindowPanel {
+public class OutcomeReviewPanel extends SimpleToolWindowPanel {
   private final Project myProject;
   private SimpleTree myReviewTree;
 
-  public ReviewPanel(Project project) {
+  public OutcomeReviewPanel(Project project) {
     super(false);
     myProject = project;
 
     SimpleTreeStructure reviewTreeStructure = createTreeStructure();
+
     DefaultMutableTreeNode root = new DefaultMutableTreeNode();
     final DefaultTreeModel model = new DefaultTreeModel(root);
     myReviewTree = new SimpleTree(model);
@@ -39,8 +40,7 @@ public class ReviewPanel extends SimpleToolWindowPanel {
   }
 
   private SimpleTreeStructure createTreeStructure() {
-    final VirtualFile virtualFile = myProject.getBaseDir();
-    final RootNode rootNode = new RootNode(myProject, virtualFile);
+    final OutcomeRootNode rootNode = new OutcomeRootNode(myProject);
     return new ReviewTreeStructure(myProject, rootNode);
   }
 }
