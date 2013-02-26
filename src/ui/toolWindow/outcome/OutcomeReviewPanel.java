@@ -1,4 +1,4 @@
-package ui.toolWindow;
+package ui.toolWindow.outcome;
 
 import com.intellij.ide.util.treeView.AbstractTreeBuilder;
 import com.intellij.openapi.project.Project;
@@ -6,7 +6,7 @@ import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.ui.ScrollPaneFactory;
 import com.intellij.ui.treeStructure.SimpleTree;
 import com.intellij.ui.treeStructure.SimpleTreeStructure;
-import ui.toolWindow.outcome.OutcomeRootNode;
+import ui.toolWindow.ReviewTreeStructure;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;

@@ -12,7 +12,7 @@ public class ReviewTreeStructure extends SimpleTreeStructure {
   private SimpleNode myRootElement;
   private Project myProject;
 
-  protected ReviewTreeStructure(Project project, SimpleNode root) {
+  public ReviewTreeStructure(Project project, SimpleNode root) {
     super();
     myProject = project;
     myRootElement = root;
