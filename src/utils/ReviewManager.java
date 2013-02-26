@@ -66,12 +66,6 @@ public class ReviewManager implements DumbAware {
 
     HTMLEditorKit.ParserCallback callback =
       new HTMLEditorKit.ParserCallback() {
-        @Override
-        public void handleStartTag(HTML.Tag tag, MutableAttributeSet set, int i) {
-          if ("user_name".equals(tag.toString()))
-            authors.add(String.valueOf(set.getAttribute("name")));
-
-        }
 
         @Override
         public void handleSimpleTag(HTML.Tag tag, MutableAttributeSet set, int pos) {
