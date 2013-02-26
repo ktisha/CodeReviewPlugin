@@ -1,6 +1,6 @@
 package ui.toolWindow.income;
 
-import actions.ReviewManager;
+import utils.ReviewManager;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;

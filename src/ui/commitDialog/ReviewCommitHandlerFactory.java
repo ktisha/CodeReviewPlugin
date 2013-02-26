@@ -11,7 +11,7 @@ import com.intellij.util.ArrayUtil;
 import com.intellij.util.containers.Convertor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import utils.ReviewService;
+import utils.ReviewManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,7 +50,7 @@ public class ReviewCommitHandlerFactory extends CheckinHandlerFactory {
       myToReview = new JCheckBox("Add reviewer ");
       myReviewer = new JComboBox();
 
-      final List<String> authors = ReviewService.getInstance(myCheckinProjectPanel.getProject()).getAuthors();
+      final List<String> authors = ReviewManager.getInstance(myCheckinProjectPanel.getProject()).getAuthors();
       List<String> list = new ArrayList<String>(authors);
       Collections.sort(list);
       list = ObjectsConvertor.convert(list, new Convertor<String, String>() {

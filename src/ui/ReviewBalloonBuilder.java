@@ -1,6 +1,6 @@
 package ui;
 
-import actions.ReviewManager;
+import utils.ReviewManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.colors.EditorColors;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
