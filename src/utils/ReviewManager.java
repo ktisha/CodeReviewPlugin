@@ -69,8 +69,11 @@ public class ReviewManager implements DumbAware {
 
         @Override
         public void handleSimpleTag(HTML.Tag tag, MutableAttributeSet set, int pos) {
-          if ("user".equals(tag.toString()))
-            authors.add(String.valueOf(set.getAttribute(HTML.getAttributeKey("name"))));
+          if ("user".equals(tag.toString())) {
+            final Object name = set.getAttribute(HTML.getAttributeKey("name"));
+            if (name != null)
+              authors.add(String.valueOf(name));
+          }
         }
       };
 
