@@ -1,5 +1,6 @@
 package ui.toolWindow.outcome;
 
+import content.outcome.CommitToReview;
 import utils.ReviewManager;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.openapi.project.Project;
@@ -23,9 +24,9 @@ public class OutcomeRootNode extends SimpleNode {
   @Override
   public SimpleNode[] getChildren() {
     if (myChildren.isEmpty()) {
-      List<String> commitsToReview = ReviewManager.getInstance(myProject).getCommitsToReview();
-      for (String commit : commitsToReview) {
-        myChildren.add(new CommitNode(myProject, commit));
+      List<CommitToReview> commitsToReview = ReviewManager.getInstance(myProject).getCommitsToReview();
+      for (CommitToReview commit : commitsToReview) {
+        myChildren.add(new CommitNode(myProject, commit.getCommitNo()));
       }
     }
     return myChildren.toArray(new SimpleNode[myChildren.size()]);

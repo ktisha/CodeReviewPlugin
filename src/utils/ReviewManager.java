@@ -2,22 +2,23 @@ package utils;
 
 
 import com.google.common.collect.Lists;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
 import content.Review;
+import content.outcome.CommitToReview;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.helpers.XMLReaderFactory;
 import ui.ReviewBalloonBuilder;
 import ui.forms.ReviewForm;
 
-import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.html.HTML;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.parser.ParserDelegator;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.List;
  * User: ktisha
  */
 public class ReviewManager implements DumbAware {
+  private static final Logger LOG = Logger.getInstance(ReviewManager.class.getName());
   private static ReviewManager ourInstance;
   private final Project myProject;
 
@@ -57,45 +59,125 @@ public class ReviewManager implements DumbAware {
     return ReviewService.getInstance(myProject).getReviews();
   }
 
-  public List<String> getCommitsToReview() {
-    return ReviewService.getInstance(myProject).getCommitsToReview();
-  }
-
-  public List<String> getAuthors() {
-    final List<String> authors = Lists.newArrayList();
-
-    HTMLEditorKit.ParserCallback callback =
-      new HTMLEditorKit.ParserCallback() {
-
-        @Override
-        public void handleSimpleTag(HTML.Tag tag, MutableAttributeSet set, int pos) {
-          if ("user".equals(tag.toString())) {
-            final Object name = set.getAttribute(HTML.getAttributeKey("name"));
-            if (name != null)
-              authors.add(String.valueOf(name));
-          }
-        }
-      };
-
+  public List<CommitToReview> getCommitsToReview() {
+    final List<CommitToReview> reviews = Lists.newArrayList();
 
     try {
-      URL url = new URL("http://127.0.0.1:8000/all_authors");
+      URL url = new URL("http://127.0.0.1:8000/to_review?author="+System.getProperty("user.name"));
       final InputStream inputStream = url.openStream();
+      XMLReader xr;
       Reader reader = new InputStreamReader(inputStream);
       try {
-        new ParserDelegator().parse(reader, callback, true);
+        xr = XMLReaderFactory.createXMLReader();
+        ToReviewParser parser = new ToReviewParser(reviews);
+        xr.setContentHandler(parser);
+        xr.parse(new InputSource(reader));
+      }
+      catch (SAXException e) {
+        LOG.warn(e.getMessage());
       }
       finally {
         reader.close();
       }
     }
     catch (MalformedURLException e) {
-      e.printStackTrace();
+      LOG.warn(e.getMessage());
     }
     catch (IOException e) {
-      e.printStackTrace();
+      LOG.warn(e.getMessage());
+    }
+    return reviews;
+    //return ReviewService.getInstance(myProject).getCommitsToReview();
+  }
+
+  public List<String> getAuthors() {
+    final List<String> authors = Lists.newArrayList();
+
+    try {
+      URL url = new URL("http://127.0.0.1:8000/all_authors");
+      InputStream inputStream = url.openStream();
+      Reader reader = new InputStreamReader(inputStream);
+      XMLReader xr;
+      try {
+        xr = XMLReaderFactory.createXMLReader();
+        AuthorsParser parser = new AuthorsParser(authors);
+        xr.setContentHandler(parser);
+        xr.parse(new InputSource(reader));
+      }
+      catch (SAXException e) {
+        LOG.warn(e.getMessage());
+      }
+      finally {
+        reader.close();
+      }
+    }
+    catch (MalformedURLException e) {
+      LOG.warn(e.getMessage());
+    }
+    catch (IOException e) {
+      LOG.warn(e.getMessage());
     }
     return authors;
     //return ReviewService.getInstance(myProject).getAuthors();
+  }
+
+  private class ToReviewParser extends DefaultHandler {
+    private final List<CommitToReview> myReviews;
+    private CharArrayWriter myContent = new CharArrayWriter();
+
+    public ToReviewParser(List<CommitToReview> reviews) {
+      //To change body of created methods use File | Settings | File Templates.
+      myReviews = reviews;
+    }
+
+    public void startElement(String namespaceURI,
+                             String localName,
+                             String qName,
+                             Attributes attr) throws SAXException {
+      myContent.reset();
+    }
+
+    public void endElement(String namespaceURI,
+                           String localName,
+                           String qName) throws SAXException {
+      if (localName.equals("commit")) {
+        CommitToReview commitToReview = new CommitToReview(myContent.toString().trim());
+        myReviews.add(commitToReview);
+      }
+    }
+
+    public void characters(char[] ch, int start, int length)
+      throws SAXException {
+      myContent.write(ch, start, length);
+    }
+  }
+
+  private class AuthorsParser extends DefaultHandler {
+    private final List<String> myAuthors;
+    private CharArrayWriter myContent = new CharArrayWriter();
+
+    public AuthorsParser(List<String> authors) {
+      myAuthors = authors;
+    }
+
+    public void startElement(String namespaceURI,
+                             String localName,
+                             String qName,
+                             Attributes attr) throws SAXException {
+      myContent.reset();
+    }
+
+    public void endElement(String namespaceURI,
+                           String localName,
+                           String qName) throws SAXException {
+      if (localName.equals("user")) {
+        myAuthors.add(myContent.toString());
+      }
+    }
+
+    public void characters(char[] ch, int start, int length)
+      throws SAXException {
+      myContent.write(ch, start, length);
+    }
   }
 }
